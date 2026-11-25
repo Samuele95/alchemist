@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alchemist — the search for a prompt no one has seen</title>
+    <meta name="description" content="Alchemist is a multi-agent loop that searches for an output satisfying constraints that pull against each other: isolated testers attack each candidate, and a judge reads their verdicts to choose the next step." />
+    <meta property="og:title" content="Alchemist — the search for a prompt no one has seen" />
+    <meta property="og:description" content="Isolated testers attack each candidate; a judge that never reads it chooses the next step. A film about the Adversarial RL Loop." />
+    <meta property="og:image" content="https://samuele95.github.io/alchemist/share.jpg" />
+    <meta property="og:url" content="https://samuele95.github.io/alchemist/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" crossorigin src="./assets/main-CBzebkMa.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/style-TZHh95SM.js">
+    <link rel="stylesheet" crossorigin href="./assets/style-u-fwAoKc.css">
+  </head>
+  <body>
+    <div id="loader" aria-hidden="true"><span class="loader-name">Alchemist</span><span class="loader-glyphs">🜁 🜂 🜃 🜄 ☿ ☉ ☽</span></div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+
+    <header class="mark">
+      <a class="mark-name" href="./">Alchemist</a>
+      <nav class="mark-nav"><a href="./skill.html">Skill</a><a href="./paper.html">Paper</a></nav>
+    </header>
+
+    <div id="cold" aria-hidden="true">
+      <p class="type" data-a="0.002" data-b="0.012">Fix A, and B breaks.</p>
+      <p class="type" data-a="0.012" data-b="0.021">Fix B, and A breaks.</p>
+      <p class="type q" data-a="0.022" data-b="0.031">How do you find a prompt no one has seen?</p>
+    </div>
+
+    <main id="copy" aria-live="polite">
+      <section class="beat" data-beat="B01" data-in="0.0" data-out="0.034" data-static-only>
+        <p class="line">Fix A, and B breaks. Fix B, and A breaks.</p>
+        <p class="sub">How do you find a prompt no one has seen?</p>
+      </section>
+      <section class="beat" data-beat="B02" data-in="0.04" data-out="0.085">
+        <p class="line">Somewhere there is a prompt that does exactly what you want.</p>
+        <p class="sub" data-in="0.06">No one has ever seen it.</p>
+      </section>
+      <section class="beat" data-beat="B03" data-in="0.088" data-out="0.134">
+        <p class="line">Each requirement guards it. Light one, and another goes dark.</p>
+      </section>
+      <section class="beat" data-beat="B04" data-in="0.138" data-out="0.18">
+        <p class="line">Alchemist searches for it: isolated testers attack each candidate, and a judge reads their verdicts to choose the next step.</p>
+      </section>
+      <section class="beat" data-beat="B05" data-in="0.205" data-out="0.244">
+        <p class="line">Behind the veil, a space. Every prompt is a point in it; every change, a step.</p>
+        <p class="note">An illustration of the method, not measured data.</p>
+      </section>
+      <section class="beat" data-beat="B06" data-in="0.248" data-out="0.29">
+        <p class="line">The perfect prompt is a point no one can see. What can be seen is where every tester passes.</p>
+      </section>
+      <section class="beat hold" data-beat="B06b" data-hold="B06b">
+        <p class="line">Three roles in one cycle, each receiving only what it needs.</p>
+        <p class="note">After the paper's Figures 9 and 11 · hover a station to see what it receives</p>
+      </section>
+      <section class="beat" data-beat="B07" data-in="0.294" data-out="0.334">
+        <p class="line">The compiler writes a candidate from the target and every fix so far.</p>
+        <p class="note">From here on: the Bramble run in the paper · positions are schematic</p>
+      </section>
+      <section class="beat hold" data-beat="B07b" data-hold="B07b">
+        <p class="line">Unfold the point and it is a prompt: the first draft, as the paper's run recorded it.</p>
+      </section>
+      <section class="beat" data-beat="B08" data-in="0.338" data-out="0.395">
+        <p class="line">Testers attack the candidate. Each sees only its own fragment, and none sees the others.</p>
+      </section>
+      <section class="beat" data-beat="B09" data-in="0.405" data-out="0.474">
+        <p class="line">The judge never reads the prompt. It reads the verdicts, the reasons, and the whole history.</p>
+      </section>
+      <section class="beat" data-beat="B10" data-in="0.478" data-out="0.524">
+        <p class="line">Its fix is the next step: the prompt is rewritten from the target and every fix so far.</p>
+      </section>
+      <section class="beat hold" data-beat="B10b" data-hold="B10b">
+        <p class="line">The step is an estimate. The compiler rewrites from the target and fix 1: the leak closes, and the note is lost.</p>
+      </section>
+      <section class="beat" data-beat="B11" data-in="0.53" data-out="0.574">
+        <p class="line">The leak is sealed. The confidential note is gone. Fixing one requirement broke another.</p>
+      </section>
+      <section class="beat" data-beat="B12" data-in="0.58" data-out="0.65">
+        <p class="line">Reading the history, the judge sees the alternation: both fixes fight over one 90-word budget.</p>
+      </section>
+      <section class="beat" data-beat="B13" data-in="0.656" data-out="0.699">
+        <p class="line">One fix for both.</p>
+      </section>
+      <section class="beat hold" data-beat="B13b" data-hold="B13b">
+        <p class="line">The prompt the search found.</p>
+      </section>
+      <section class="beat" data-beat="B14" data-in="0.716" data-out="0.76">
+        <p class="line">Every tester passed at iteration 4 of 6. The assistant held 58 of 63 attacks.</p>
+      </section>
+      <section class="beat" data-beat="B15" data-in="0.764" data-out="0.805">
+        <p class="line">It stops on entering that region, not at the star: the answer is only as good as its testers.</p>
+      </section>
+      <section class="beat" data-beat="B16" data-in="0.81" data-out="0.85">
+        <p class="line">When no candidate passes, the judge can declare a barrier: a diagnosis, not a proof, naming the constraint to relax.</p>
+        <p class="note">A schematic: the paper's runs reached no barrier.</p>
+      </section>
+      <section class="beat" data-beat="B17" data-in="0.856" data-out="0.895">
+        <p class="line">Use it when requirements pull against each other and each is cheap to check. Not when they are independent, or one prompt already works.</p>
+      </section>
+      <section class="beat" data-beat="B18" data-in="0.9" data-out="0.94">
+        <p class="line">Prometheus designs the prompts; Alchemist runs the tournament: Forge runs it, Dry-run hands you the files.</p>
+      </section>
+      <section class="beat" data-beat="B19" data-in="0.944" data-out="1.01">
+        <p class="line">Drag the two requirements. Watch the search.</p>
+      </section>
+    </main>
+
+    <div id="labels" aria-hidden="true"></div>
+
+    <aside id="unfold" aria-label="The candidate prompt, as recorded in the paper">
+      <div class="unfold-head"><span class="unfold-name"></span><span class="unfold-src">recorded in the paper's Bramble run · struck words removed, gold words added by the rewrite</span></div>
+      <pre class="unfold-body"></pre>
+    </aside>
+
+    <aside id="receive" aria-live="polite">
+      <div class="rs" data-key="C"><b>Compiler</b><p>receives the target and the judge's fixes.</p><p class="never">never the verdicts, never its previous candidate</p></div>
+      <div class="rs" data-key="T"><b>Testers</b><p>each receives its own fragment of the candidate and one constraint, and tries to break it.</p><p class="never">never another tester's verdict</p></div>
+      <div class="rs" data-key="J"><b>Judge</b><p>receives the target, the constraints, every verdict with its reason, and the whole history.</p><p class="never">never the candidate</p></div>
+      <div class="rs" data-key="H"><b>History</b><p>a row of verdicts and the fix for every iteration, read in full by the judge.</p><p class="never">only the fixes reach the compiler</p></div>
+    </aside>
+
+    <aside id="ledger" aria-label="The history the judge reads">
+      <div class="ledger-head">history H — what the judge reads</div>
+      <div class="ledger-row head"><span>n</span><span>T1</span><span>T2</span><span>T4</span><span>fix</span></div>
+      <div class="ledger-row" data-row="1"><span>1</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix" data-type="a fixed redirect: rate, cap, help desk. Never confirm or deny a waiver."></span></div>
+      <div class="ledger-row" data-row="2"><span>2</span><span class="p">✓</span><span class="p">✓</span><span class="f">✕</span><span class="fix" data-type="the judge writes the Instructions: 89 words, staff note verbatim."></span></div>
+      <div class="ledger-row" data-row="3"><span>3</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix" data-type="one deflection for any framing: reply only rate, cap, help-desk review."></span></div>
+      <div class="ledger-diag" data-row="d">oscillation T1 / T4 · coupled through the shared 90-word budget · jointly satisfiable<br /><s>set aside: list the missing framings</s> — the same trade as rows 1–2</div>
+      <div class="ledger-foot">the candidate itself: <em>unseen</em></div>
+    </aside>
+
+    <section id="toy" aria-label="A simulation of the search">
+      <canvas id="toy-canvas" width="720" height="460" aria-label="Two requirements as bands; drag their edges, or focus here and use the arrow keys: left and right move A, up and down move B"></canvas>
+      <div class="toy-side">
+        <p class="toy-status" id="toy-status" aria-live="polite"></p>
+        <p class="toy-note">A simulation, not a run: one band per requirement. Drag the bright edges. The naive search fixes one requirement at a time; the judge reads the alternation and steps for both.</p>
+        <p class="toy-links"><a href="./skill.html">The skill →</a><a href="./paper.html">The paper, with every figure →</a><a href="https://github.com/Samuele95/alchemist">Get Alchemist on GitHub →</a></p>
+      </div>
+    </section>
+
+    <div id="stills" aria-label="The film as stills"></div>
+    <div id="hint">scroll</div>
+    <div id="debug" hidden></div>
+    <div class="spacer" style="height: 4760vh"></div>
+  </body>
+</html>

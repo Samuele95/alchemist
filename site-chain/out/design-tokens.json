@@ -1,0 +1,26 @@
+{
+  "palette": [
+    { "name": "black", "value": "#030202", "means": "the ground; the unknown" },
+    { "name": "gold", "value": "#e0a640", "means": "a passing verdict; light that has been found; the converged state" },
+    { "name": "gold-hi", "value": "#ffe2a3", "means": "emphasis, headings, the brightest head of a glyph column" },
+    { "name": "bone", "value": "#efe6d2", "means": "readable text; the candidate's core" },
+    { "name": "ash", "value": "#5c544a", "means": "the space at rest; a failing verdict; regions already tried" },
+    { "name": "rust", "value": "#5a3a26", "means": "the crackle of a tarnished plane (texture, never colour alone)" },
+    { "name": "cold", "value": "#cfd8ff", "means": "s†, the truth no one has seen — the only cold light in the film" }
+  ],
+  "type": {
+    "display": { "family": "Cinzel", "weights": [400, 600], "use": "the mark, sub-lines, section heads" },
+    "body": { "family": "Cormorant Garamond", "weights": ["400 italic", 500], "use": "beat copy, theory prose" },
+    "mono": { "family": "IBM Plex Mono", "weights": [400, 500], "use": "labels, the ledger, the cold open, code" },
+    "symbols": { "family": "Noto Sans Symbols", "use": "alchemical and planetary glyphs in the atlas" },
+    "sizes": { "beat": "clamp(26px, 3.1vw, 46px)", "sub": "clamp(14px, 1.2vw, 18px)", "label": "12px", "note": "11px" }
+  },
+  "motion": [
+    { "name": "camera-move", "easing": "cubic in-out", "duration_t": 0.04 },
+    { "name": "copy-fade", "easing": "smoothstep", "duration_t": 0.018 },
+    { "name": "verdict", "easing": "smoothstep", "duration_t": 0.045 },
+    { "name": "freeze-orbit", "easing": "cubic in-out", "duration_t": 0.08, "angle": "quarter turn" },
+    { "name": "scroll-inertia", "rate": 6, "note": "displayed t eases toward scroll t" }
+  ],
+  "grade": { "tone_mapping": "ACES filmic", "exposure": 1.05, "bloom": { "strength": 0.8, "radius": 0.55, "threshold": 0.42 }, "grain": 0.035, "vignette": 0.35, "chromatic_aberration": 0.0012 }
+}

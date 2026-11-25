@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alchemist — the skill</title>
+    <meta property="og:title" content="Alchemist — the skill" />
+    <meta property="og:image" content="https://samuele95.github.io/alchemist/share.jpg" />
+    <meta name="description" content="Alchemist, the skill: what it does, how a run goes, its rules, and a summary of the theory in the Adversarial RL Loop paper." />
+  </head>
+  <body class="theory">
+    <header class="mark">
+      <a class="mark-name" href="./">Alchemist</a>
+      <nav class="mark-nav"><a href="./">Film</a><a href="./skill.html" aria-current="page">Skill</a><a href="./paper.html">Paper</a></nav>
+    </header>
+    <main class="read">
+      <p class="kicker">The skill</p>
+      <h1>The search for a prompt no one has seen</h1>
+      <p class="lede">Alchemist is a multi-agent loop for outputs that must satisfy several constraints that pull against each other. A compiler writes a candidate. Isolated testers each try to break it on one constraint. A judge that never reads the candidate reads their verdicts and the whole history, and writes the next fix. This page describes the skill and summarises its theory. The full paper, <em>The Adversarial RL Loop</em> by Samuele Stronati, with every figure and its interactive runs, is on the <a href="./paper.html">Paper</a> page.</p>
+
+      <nav class="toc" aria-label="Contents">
+        <a href="#run">How a run goes</a><a href="#rules">Design rules</a><a href="#wrong">When it goes wrong</a><a href="#search">Search in prompt space</a><a href="#loop">The loop</a><a href="#instantiate">Instantiating it</a>
+        <a href="#converge">Why it should converge</a><a href="#outcomes">Outcomes</a><a href="#runs">The two runs</a>
+        <a href="#related">Related methods</a><a href="#prometheus">Alchemist and Prometheus</a><a href="#when">When to use it</a><a href="#get">Get it</a>
+      </nav>
+
+      <h2 id="overview">Overview</h2>
+      <p>Two constraints are <strong>coupled</strong> when a fix that satisfies one tends to break the other. Repairing them one at a time can go in circles: the fix for A breaks B, and the fix for B breaks A again. The loop separates generation from verification. It rests on an asymmetry that the paper assumes and does not measure: checking one constraint on a given candidate is cheaper than producing a candidate that satisfies all of them. Where no cheap check exists, there is nothing for the loop to exploit, and the paper does not recommend it.</p>
+
+      <h2 id="run">How a run goes</h2>
+      <p>Alchemist is a skill for Claude Code. A run has four phases.</p>
+      <ol>
+        <li><strong>Instantiate.</strong> Settle the three decisions — the output space, the testers with their projections, the halt predicate and any relaxation — plus the iteration budget. Record them in <code>run-config.yaml</code> and confirm them before any role is written.</li>
+        <li><strong>Forge the roles.</strong> The compiler is a one-shot task prompt, each tester a strict grader told to make its constraint fail, and the judge a grader of verdicts against the history. Alchemist asks <a href="https://github.com/Samuele95/prometheus">Prometheus</a> to write them, then wires in the context restrictions.</li>
+        <li><strong>Run or ship.</strong> In <strong>Forge</strong> mode each role runs as an isolated sub-agent and receives only its permitted context. Each iteration goes compile → testers in parallel → halt check → judge → one new row in the history ledger. In <strong>Dry-run</strong> mode the role prompts, the config and the empty ledger are written as files, and nothing runs.</li>
+        <li><strong>Report.</strong> Either the converged artifact with its history trace, or a barrier report: the history, the judge's diagnosis, and the constraint it recommends relaxing.</li>
+      </ol>
+
+      <h2 id="rules">Design rules</h2>
+      <ul>
+        <li><strong>Strict testers.</strong> A tester that only evaluates passes weak candidates; one told to break its constraint finds the real failures early.</li>
+        <li><strong>The judge sees the full history, as a table.</strong> The history is where coupling becomes visible: one row per iteration, every verdict, the fix applied.</li>
+        <li><strong>At least two testers.</strong> With one, there is no coupling to detect, and a single prompt from Prometheus will do.</li>
+        <li><strong>Relaxations before the loop, never after.</strong></li>
+        <li><strong>Fixes carry their content.</strong> The compiler never sees the previous candidate, so a fix that only points at it ("keep the rest unchanged") has nothing to apply to.</li>
+      </ul>
+
+      <h2 id="wrong">When it goes wrong</h2>
+      <table>
+        <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>oscillates, never settles</td><td>the judge is not seeing the full history</td><td>pass the whole ledger every call</td></tr>
+          <tr><td>passes, but fails in use</td><td>a lenient tester</td><td>make it strict; add the missed edge case</td></tr>
+          <tr><td>satisfies tests in form, not substance</td><td>the compiler sees verdicts</td><td>pass it only the target and the fixes</td></tr>
+          <tr><td>the judge redoes the testers' work</td><td>the judge sees the candidate</td><td>pass it only verdicts and history</td></tr>
+          <tr><td>everything passes at once</td><td>lenient testers, or uncoupled constraints</td><td>if uncoupled, you did not need Alchemist</td></tr>
+        </tbody>
+      </table>
+
+      <p class="kicker" style="margin-top:3em">The theory, in brief</p>
+      <p>What follows summarises the paper. Read the full text, with all its figures and the recorded runs you can step through, on the <a href="./paper.html">Paper</a> page.</p>
+
+      <h2 id="search">Search in prompt space</h2>
+      <p>Writing a good prompt is largely a search. Picture every possible prompt as a point in the space where the model reads them, close together when the model reads them alike. The ideal prompt, the <strong>target prompt s†</strong>, is a point in that space. It is hypothetical: no one knows it in advance, and neither it nor the distance to it can be observed.</p>
+      <p>What can be observed is the testers' verdicts. Each tester divides the space into the candidates it passes and the ones it fails. The <strong>acceptance region</strong> is where every tester passes. Each fix is a semantic operation, a step from one point to another. The loop halts when the candidate enters the acceptance region, not when it reaches s†. Halting is therefore sound only relative to the testers: a requirement no tester checks is not enforced.</p>
+      <table>
+        <caption>Gradient descent beside the loop. The parallel explains the method; it does not carry gradient descent's guarantees.</caption>
+        <thead><tr><th>Gradient descent</th><th>The loop</th></tr></thead>
+        <tbody>
+          <tr><td>parameters θ</td><td>the candidate prompt s</td></tr>
+          <tr><td>loss, computed</td><td>distance to s†, not observed; the number of failing testers is a coarse indicator</td></tr>
+          <tr><td>gradient</td><td>the judge's diagnosis, from the verdicts and their reasons</td></tr>
+          <tr><td>step</td><td>the fix, which the compiler turns into the next candidate</td></tr>
+          <tr><td>momentum</td><td>the history, read in full by the judge</td></tr>
+          <tr><td>descent guaranteed for small steps on a smooth loss</td><td>no such guarantee</td></tr>
+        </tbody>
+      </table>
+      <p>Coupled constraints have a recognisable shape here. When two constraints compete for the same resource, the region where both hold is a <strong>narrow strip</strong>. A step aimed at one of them crosses the strip and lands on the far side, much as gradient descent zig-zags between the walls of a narrow valley.</p>
+
+      <h2 id="loop">The loop</h2>
+      <p>There are three roles and one fixed cycle: compile, test in parallel, check the halt condition, judge, add to the history.</p>
+      <ul>
+        <li><strong>Compiler.</strong> Writes a candidate from the target and the judge's accumulated fixes. It never sees raw verdicts or the previous candidate.</li>
+        <li><strong>Testers.</strong> Each checks one constraint, is told to break the candidate rather than grade it, and sees only its own part of the candidate. A <em>projection</em> here is a context-selection function, not a geometric projection. Testers never see each other.</li>
+        <li><strong>Judge.</strong> Reads every verdict with its reason and the whole history of verdict–fix pairs, and never the candidate itself. It is the only role that reasons across constraints. Its fix reaches the compiler in the next iteration.</li>
+      </ul>
+      <table>
+        <caption>The information flow, stated as what each role receives. The paper calls each rule's benefit design rationale, not a tested result.</caption>
+        <thead><tr><th></th><th>Receives</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>I1</td><td>Compiler: the target and the fixes only</td><td>a compiler that sees verdicts writes to the letter of each test</td></tr>
+          <tr><td>I2</td><td>No tester sees another's output</td><td>a tester that knows its neighbour stops checking its own constraint honestly</td></tr>
+          <tr><td>I3</td><td>Tester: its projection and its constraint</td><td>a component test on the whole candidate is no longer a component test</td></tr>
+          <tr><td>I4</td><td>Judge: target, constraints, verdicts with reasons, full history</td><td>all cross-constraint reasoning happens in one place</td></tr>
+          <tr><td>I5</td><td>Judge: no part of the candidate beyond the reasons</td><td>a judge that reads the candidate redoes the testers' work</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="instantiate">Instantiating it</h2>
+      <p>Three decisions define a run: the output space, which bounds what the compiler may produce; the testers with their projections, at least two and about five at most; and the halt predicate, usually "every tester passes". Any relaxation of the halt must be declared before the loop starts; chosen afterwards, it is a rationalisation. As a planning guideline, budget 3–4 iterations for 2–3 constraints and 5–6 for 4–6 interacting constraints. The compiler rebuilds each candidate from the target and the fixes, so anything that must survive has to be written into the fix itself. A fix that only points at the previous candidate ("keep the rest unchanged") has nothing to apply to.</p>
+
+      <h2 id="converge">Why it should converge</h2>
+      <p>Three design mechanisms are meant to drive the search.</p>
+      <ul>
+        <li><strong>Informed fixes.</strong> The judge's diagnosis replaces a random mutation.</li>
+        <li><strong>A tabu-like history.</strong> Tried fixes stay visible, and the judge is told not to re-propose them. This is informal: nothing enforces it.</li>
+        <li><strong>Coupling detection.</strong> Reading an alternation in the history, the judge can recognise a coupled pair and write one fix for both.</li>
+      </ul>
+      <p class="theorem"><strong>Theorem 1.</strong> Suppose each round reached without halting has at least a fixed chance <em>p</em> of producing a candidate that passes every tester, and the judge returns a fix rather than a barrier before the budget. Then the loop halts within <em>N</em> rounds with probability at least 1 − (1 − <em>p</em>)<sup><em>N</em></sup>. Without a budget, it halts after at most 1/<em>p</em> rounds in expectation. Whether a real judge meets the assumption is not shown.</p>
+      <p>What is guaranteed outright is modest. Cost is bounded by <em>N</em>(<em>m</em> + 2) role calls. Reaching the budget does not prove that no answer exists. The paper treats oscillation as the main convergence risk under coupled constraints, as a design premise rather than a measured finding.</p>
+
+      <h2 id="outcomes">Outcomes</h2>
+      <p>A run ends one of two ways. Either every tester passes and you get the artifact with its history, the trace of verdicts and fixes that shows how it was found. Or the judge declares a <strong>barrier</strong>: the history, a diagnosis of which constraints could not be met together, and the constraint to relax. A barrier report is a diagnosis, not a proof of infeasibility.</p>
+
+      <h2 id="runs">The two runs</h2>
+      <p>The paper shows two live runs, selected by the author as examples rather than an evaluation (n = 2, no baseline).</p>
+      <p><strong>Bramble.</strong> The task was hardening the system prompt of a fictional library assistant, with five testers. Each iteration went as follows:</p>
+      <table>
+        <thead><tr><th>n</th><th>T1 leak</th><th>T4 staff note</th><th>what the judge did</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>fail (11 of 14 held)</td><td>pass</td><td>a fixed redirect: never confirm or deny a waiver</td></tr>
+          <tr><td>2</td><td>pass (15 of 15)</td><td>fail: the note was dropped</td><td>named the oscillation, traced it to the shared 90-word budget, and wrote the Instructions with the note verbatim</td></tr>
+          <tr><td>3</td><td>fail (16 of 18 held)</td><td>pass</td><td>set aside listing the missing framings (the same trade), and wrote one deflection for any framing</td></tr>
+          <tr><td>4</td><td>pass (16 of 16)</td><td>pass</td><td>— every tester passed; the loop halted at iteration 4 of 6</td></tr>
+        </tbody>
+      </table>
+      <p>The other three testers passed throughout. Over the run the deployed assistant held 58 of 63 executed attacks.</p>
+      <p><strong>SemVer.</strong> The task was a regex and its description, with four testers. Every tester passed at iteration 3 of 6, with no oscillation. The run showed that text the judge writes out in full survives a compiler that never sees the previous candidate, while a fix that only points at it does not.</p>
+
+      <h2 id="related">Related methods</h2>
+      <p>Like ProTeGi and TextGrad, the loop treats prompt search as descent with textual feedback. Unlike them, the direction comes from adversarial testers and from a judge that never reads the prompt. From reinforcement learning it borrows only the division of roles: the compiler as actor, the testers as environment, the verdicts as reward, the judge as critic. No parameter is trained. Its nearest neighbour is LLM-Modulo, and it shares its basic shape with Self-Refine, Reflexion, CEGIS and PAIR. Because the compiler is defined only by its interface, any prompt-engineering technique can sit inside the loop and be wrapped by it, although no run has done that yet. The paper claims no novelty for the loop itself, only the explicit, enforceable specification of who reads what.</p>
+
+      <h2 id="prometheus">Alchemist and Prometheus</h2>
+      <p>Prometheus designs prompts and never runs them; Alchemist runs the tournament. Alchemist asks Prometheus to write its compiler, tester and judge prompts. In the paper's runs, the role prompts followed Prometheus's prompt shapes and every role ran as a fresh Claude Code sub-agent. Alchemist has two modes: <strong>Forge</strong> runs the loop to the end, and <strong>Dry-run</strong> hands you the role prompts, the run configuration and an empty ledger without running anything.</p>
+
+      <h2 id="when">When to use it</h2>
+      <p>Use it when requirements are coupled and each is cheaper to check than to satisfy: hardening a system prompt, converging a SKILL.md, forging a regex or a config. Don't use it when the constraints are independent (a checklist is cheaper), when no cheap check exists, or when one prompt already works.</p>
+
+      <h2 id="get">Get it</h2>
+      <p>Alchemist is an MIT-licensed skill for Claude Code. Start by describing the target, the constraints and how each can be checked, and confirm the three decisions before any role is written. Get it from the <a href="https://github.com/Samuele95/alchemist">Alchemist repository</a>.</p>
+      <p class="back"><a href="./">← The film</a> · <a href="./paper.html">The full paper →</a></p>
+    </main>
+    <script type="module">import './src/style.css';</script>
+  </body>
+</html>
