@@ -64,7 +64,7 @@ export const POS = {
   compiler: V(-7.0, 1.8, 0),
   scroll: [V(-3.0, 0.3, 0), V(-1.6, 1.2, -0.5), V(-2.6, -0.6, -0.3), V(-0.4, 0.6, -0.9)],
   testers: [V(3.2, 3.0, -0.3), V(3.4, 0.1, 0.1), V(3.2, -2.8, -0.2)],
-  judge: V(0.2, -3.5, 0.6),
+  judge: V(1.6, -3.5, 0.6),
   history: V(-8.4, -3.5, 0.2),
   star: V(0.6, 6.2, -5.0),
   P: V(-7.4, -0.9, -1.0),
@@ -321,7 +321,7 @@ export class Film {
     this.sheet.visible = space && inRoom > 0.001;
     this.sheet.position.copy(at.pos);
     const su = this.sheet.material.uniforms;
-    su.uLit.value = smooth(seg(t, T.it[0].write[0] + 0.01, T.it[0].write[0] + 0.05)) * inRoom;
+    su.uLit.value = smooth(seg(t, T.it[0].write[0] + 0.01, T.it[0].write[0] + 0.05)) * inRoom * (0.3 + 0.7 * Math.max(c.uTransmute.value, at.dark));
     su.uDark.value = at.dark; su.uCrackA.value = at.crackA; su.uCrackB.value = at.crackB; su.uHit.value = at.hit; su.uHitUv.value.set(at.hitUv[0], at.hitUv[1]);
     su.uGold2.value = c.uTransmute.value;
     this.ghosts.forEach((g, k) => { const on = at.ghost[k]; g.visible = space && on > 0.001 && inRoom > 0.001; g.material.uniforms.uIntensity.value = 0.5 * on * inRoom; });

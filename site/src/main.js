@@ -61,17 +61,25 @@ function startFilm() {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: CHECK });
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05; renderer.outputColorSpace = THREE.SRGBColorSpace;
   const pr = () => Math.min(window.devicePixelRatio || 1, TIER === 'lite' ? 1 : 1.75);
-  const state = { t: FIXED_T ?? 0, target: FIXED_T ?? 0, mouse: new THREE.Vector2(0.8, 0.3), mouseTarget: new THREE.Vector2(0.8, 0.3), pointerSeen: false, idle: 0, last: performance.now(), fps: 60, frames: 0 };
+  const DUR = params.has('dur') ? +params.get('dur') : 270; // seconds for the whole film when it plays itself
+  const state = { playing: false, t: FIXED_T ?? 0, target: FIXED_T ?? 0, mouse: new THREE.Vector2(0.8, 0.3), mouseTarget: new THREE.Vector2(0.8, 0.3), pointerSeen: false, idle: 0, last: performance.now(), fps: 60, frames: 0 };
   window.__frames = 0; window.__ready = false;
   const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
   const scrollToT = (t) => window.scrollTo(0, t * maxScroll());
   window.__setT = (t) => { scrollToT(t); state.target = state.t = clamp(t); };
   addEventListener('scroll', () => { state.target = clamp(scrollY / maxScroll()); if (CHECK || FIXED_T !== null) state.t = state.target; }, { passive: true });
   addEventListener('pointermove', (e) => { state.mouseTarget.set(e.clientX / innerWidth, 1 - e.clientY / innerHeight); state.pointerSeen = true; });
+  // autoplay: the film plays itself at a steady pace; any scroll, key or touch takes the wheel back
+  const playBtn = document.getElementById('play'), progress = document.querySelector('#progress b');
+  const setPlaying = (on) => { state.playing = on && FIXED_T === null && !CHECK; playBtn.setAttribute('aria-pressed', String(state.playing)); playBtn.querySelector('span').textContent = state.playing ? 'pause' : 'play'; hint.textContent = state.playing ? 'space to pause · scroll to seek' : 'scroll · or press play'; };
+  playBtn.addEventListener('click', () => { if (!state.playing && state.target >= 0.999) scrollToT(0); setPlaying(!state.playing); });
+  addEventListener('wheel', () => setPlaying(false), { passive: true });
+  addEventListener('touchstart', () => setPlaying(false), { passive: true });
   addEventListener('keydown', (e) => {
-    if (e.target.id === 'toy-canvas') return;
-    const step = { ArrowDown: 0.005, PageDown: 0.03, ' ': 0.03, ArrowUp: -0.005, PageUp: -0.03, Home: -1, End: 1 }[e.key];
-    if (step !== undefined) { e.preventDefault(); scrollToT(clamp(state.target + step)); }
+    if (e.target.id === 'toy-canvas' || e.target === playBtn) return;
+    if (e.key === ' ') { e.preventDefault(); if (!state.playing && state.target >= 0.999) scrollToT(0); setPlaying(!state.playing); return; }
+    const step = { ArrowDown: 0.005, PageDown: 0.03, ArrowUp: -0.005, PageUp: -0.03, Home: -1, End: 1 }[e.key];
+    if (step !== undefined) { e.preventDefault(); setPlaying(false); scrollToT(clamp(state.target + step)); }
   });
 
   // ---- DOM
@@ -134,7 +142,7 @@ function startFilm() {
     const sp = film.project(at.pos.clone().add(V3(0, 1.75, 0)), w, h);
     const sw = Math.min(440, w * 0.32);
     scrollEl.style.width = sw + 'px';
-    scrollEl.style.transform = `translate(${Math.max(w * 0.25, Math.min(w * 0.66 - sw, sp.x - sw / 2)).toFixed(0)}px, ${Math.max(70, Math.min(h * 0.2, sp.y)).toFixed(0)}px)`;
+    scrollEl.style.transform = `translate(${Math.max(w * 0.3, Math.min(w * 0.66 - sw, sp.x - sw / 2)).toFixed(0)}px, ${Math.max(70, Math.min(h * 0.2, sp.y)).toFixed(0)}px)`;
     if (scrollBody.dataset.v !== String(at.version)) { scrollBody.innerHTML = CANDS[at.version]; scrollBody.dataset.v = String(at.version); scrollName.textContent = NAMES[at.version]; }
     scrollBody.style.setProperty('--reveal', `${(at.typed * 100).toFixed(1)}%`);
     scrollEl.style.opacity = (inRoom * smooth(seg(t, T.it[0].write[0], T.it[0].write[0] + 0.02)) * (1 - at.dark) * (1 - window01(t, T.transmute[0] + 0.012, T.star[1], 0.008))).toFixed(3);
@@ -195,6 +203,7 @@ function startFilm() {
   function frame(now) {
     const dt = Math.min(0.1, (now - state.last) / 1000); state.last = now;
     if (!FROZEN_IDLE) state.idle += dt;
+    if (state.playing) { const nt = Math.min(1, state.target + dt / DUR); scrollToT(nt); state.target = nt; if (nt >= 1) setPlaying(false); }
     if (!CHECK && FIXED_T === null) { state.t += (state.target - state.t) * (1 - Math.exp(-dt * 6)); state.mouse.lerp(state.mouseTarget, 1 - Math.exp(-dt * 10)); } else state.mouse.copy(state.mouseTarget);
     const t = state.t;
     const g = post.grade.uniforms;
@@ -215,6 +224,7 @@ function startFilm() {
     updateDom(t, freeze, at);
     state.fps = state.fps * 0.95 + (1 / Math.max(dt, 1e-3)) * 0.05;
     window.__frames = ++state.frames;
+    progress.style.width = (t * 100).toFixed(2) + '%';
     if (DEBUG) { const b = beatAt(t); debug.textContent = `t     ${t.toFixed(3)}\nbeat  ${b.id}\nfps   ${state.fps.toFixed(0)}\ntier  ${TIER}`; }
     requestAnimationFrame(frame);
   }
@@ -227,7 +237,7 @@ function startFilm() {
     if (FIXED_T !== null) { scrollToT(FIXED_T); state.t = state.target = FIXED_T; }
     renderer.compile(film.scene, film.camera);
     requestAnimationFrame((n) => { state.last = n; frame(n); });
-    const wait = () => { if (window.__frames > 3) { window.__ready = true; document.getElementById('loader').classList.add('gone'); } else requestAnimationFrame(wait); };
+    const wait = () => { if (window.__frames > 3) { window.__ready = true; document.getElementById('loader').classList.add('gone'); if (FIXED_T === null && !CHECK && !reduced && scrollY < 4 && !params.has('still')) setTimeout(() => { if (scrollY < 4) setPlaying(true); }, 1200); } else requestAnimationFrame(wait); };
     wait();
   })().catch((e) => console.error(e));
 }

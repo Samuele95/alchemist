@@ -18,7 +18,7 @@
 
     <header class="mark">
       <a class="mark-name" href="./">Alchemist</a>
-      <nav class="mark-nav"><a href="./skill.html">Skill</a><a href="./paper.html">Paper</a></nav>
+      <nav class="mark-nav"><a href="./skill.html">Skill</a><a href="./paper.html">Paper</a><button id="play" type="button" aria-label="play the film" aria-pressed="false"><i></i><span>play</span></button></nav>
     </header>
 
     <div id="cold" aria-hidden="true">
@@ -50,6 +50,7 @@
       <section class="beat" data-beat="A16" data-in="0.974" data-out="1.01"><p class="line">Drag the two requirements. Watch the search.</p></section>
     </main>
 
+    <div id="progress" aria-hidden="true"><b></b></div>
     <div id="labels" aria-hidden="true"></div>
     <div id="unseen" aria-hidden="true">candidate — unseen by the judge</div>
 
@@ -83,7 +84,7 @@
     </section>
 
     <div id="stills" aria-label="The film as stills"></div>
-    <div id="hint">scroll</div>
+    <div id="hint">scroll · or press play</div>
     <div id="debug" hidden></div>
     <div class="spacer" style="height: 5200vh"></div>
     <script type="module" src="./src/main.js"></script>

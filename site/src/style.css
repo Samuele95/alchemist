@@ -157,7 +157,7 @@ body.bare .label.point, body.bare .label.est { background: rgba(3,2,2,.62); }
 body.loop #copy { bottom: 6vh; }
 body.loop .beat { max-width: min(560px, 44vw); left: 5vw; }
 body.loop .beat .line { font-size: clamp(22px, 2.4vw, 34px); }
-.scroll { position: fixed; left: 0; top: 0; z-index: 3; opacity: 0; pointer-events: none; padding: 12px 14px; background: linear-gradient(180deg, rgba(14,10,4,.9), rgba(6,4,2,.86)); border: 1px solid rgba(224,166,64,.5); box-shadow: 0 0 36px rgba(224,166,64,.14); will-change: transform; }
+.scroll { position: fixed; left: 0; top: 0; z-index: 3; opacity: 0; pointer-events: none; padding: 12px 14px; background: linear-gradient(180deg, rgba(12,9,4,.985), rgba(5,3,2,.975)); border: 1px solid rgba(224,166,64,.5); box-shadow: 0 0 36px rgba(224,166,64,.14); will-change: transform; }
 .scroll-head { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; margin-bottom: 8px; }
 .scroll-name { color: var(--gold-hi); } .scroll-by { color: var(--ash); }
 .scroll-body { margin: 0; white-space: pre-wrap; font: 11px/1.5 'IBM Plex Mono', monospace; color: var(--bone); max-height: 46vh; overflow: hidden;
@@ -200,3 +200,12 @@ body.loop .label.station span { display: block; width: 180px; white-space: norma
 .scroll-body { max-height: 44vh; }
 .judge-verdicts .jv { white-space: normal; }
 .label.room { font-size: 13px; } .label.room b { font-size: 14px; } .label.room span { color: var(--bone); }
+
+/* ---- transport: autoplay ---- */
+#play { display: inline-flex; align-items: center; gap: 7px; background: none; border: 1px solid rgba(224,166,64,.45); color: var(--gold-hi); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 3px 10px 3px 8px; cursor: pointer; pointer-events: auto; border-radius: 2px; }
+#play:hover, #play:focus-visible { background: rgba(224,166,64,.12); outline: none; }
+#play i { display: inline-block; width: 0; height: 0; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent currentColor; }
+#play[aria-pressed='true'] i { width: 7px; height: 9px; border-width: 0 2px; border-color: currentColor; border-style: solid; }
+#progress { position: fixed; left: 0; top: 0; width: 100%; height: 2px; z-index: 6; pointer-events: none; background: rgba(224,166,64,.12); }
+#progress b { display: block; height: 100%; width: 0; background: var(--gold-hi); box-shadow: 0 0 8px rgba(224,166,64,.6); }
+body[data-tier='static'] #play, body[data-tier='static'] #progress, body.bare #play, body.bare #progress { display: none; }
