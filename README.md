@@ -81,6 +81,53 @@ The website is a single scroll-driven shot, in three.js. A veil of falling glyph
 
 The room is an illustration of the method, not measured data. Positions are schematic; the prompts, diffs, attacks, verdicts and fixes are the paper's own.
 
+## The paper
+
+**The Adversarial RL Loop: a prompt engineering and optimisation technique by iterative exploration of prompt space** — read it at [samuele95.github.io/alchemist/paper.html](https://samuele95.github.io/alchemist/paper.html), with every figure live.
+
+The paper's claim is that writing a prompt is a search: you start from a first formulation and move it, step by step, towards a target prompt that no one can write down in advance. Each iteration of the loop is one semantic operation on the prompt, and the judge estimates the direction of the step from the outcomes of adversarial testers — a division of roles inspired by reinforcement learning, with no parameters trained. The compiler is deliberately minimal (a map from the target and the fixes to a candidate), which is what lets the loop wrap any existing prompt-engineering technique written in that form.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/readme/paper-fig03-space.jpg" alt="Figure 3: search in prompt space"></td>
+    <td width="50%"><img src="docs/readme/paper-fig09-loop.jpg" alt="Figure 9: the loop at iteration n"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Search in prompt space.</b> Each fix is a step from one candidate to the next; the level curves of the distance to s† cannot be drawn, and the loop halts at the first candidate inside the acceptance region — not at s†. Interactive in the paper.</sub></td>
+    <td align="center"><sub><b>One iteration.</b> The compiler reads only the target and the fix column of the history; each tester sees only its projection; the judge reads verdicts, reasons and history — no arrow runs from the candidate to the judge.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/readme/paper-fig11-paths.jpg" alt="Figure 11: permitted and forbidden information paths"></td>
+    <td><img src="docs/readme/paper-fig16-coupling.jpg" alt="Figure 16: coupling detection in the Bramble run"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Information flow as receive-sets.</b> Solid paths are permitted, dashed ones forbidden: no tester talks to another, and nothing goes from the candidate to the judge.</sub></td>
+    <td align="center"><sub><b>Coupling detection.</b> Fix 1 moved the Bramble candidate from the T₄ region into the T₁ region and fix 2 moved it back; the judge named the alternation and wrote one fix for both.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/readme/paper-fig13-loss.jpg" alt="Figure 13: failing testers per iteration in the two runs"></td>
+    <td><img src="docs/readme/paper-fig19-trajectory.jpg" alt="Figure 19: trajectory of the Bramble run"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Observed loss.</b> The number of failing testers per iteration in the two runs, from the recorded verdicts; the Bramble run alternates T₁, T₄, T₁ before all pass.</sub></td>
+    <td align="center"><sub><b>Trajectory of the Bramble run.</b> Each row is one iteration: the verdicts, what changed in the candidate, and the judge's fix that produced the next row.</sub></td>
+  </tr>
+</table>
+
+What is inside:
+
+- **Search in prompt space (§2)** — the target prompt and its acceptance region; why each iteration is a semantic operation; how the judge estimates distance and direction from the testers' reasons; the same scheme read as gradient descent, as textual gradients (ProTeGi, TextGrad), as adversarial training and as reinforcement; coupled constraints as a narrow valley.
+- **Method (§3–4)** — the three roles and one cycle; the loop as a wrapper around any compiler; the information invariants stated as per-role receive-sets, and projections for testers that must see only part of a candidate.
+- **Formal model (§5)** — the system tuple `(P, S, C, T, J, halt, N)`, the algorithm, and four plain statements with their reasons: cost is bounded by `N(m + 2)` role calls; halting is sound only relative to the testers; reaching the budget is diagnostic evidence for a barrier, not a proof of infeasibility; a compiler that never sees the previous candidate cannot carry out a fix that only points at it.
+- **Why it should converge (§6)** — Theorem 1: under informed progress (each round has probability at least *p* of halting) and a judge that keeps returning fixes, the loop halts within *N* rounds with probability at least 1 − (1 − *p*)^*N*; Proposition 1 on termination under a strict tabu; the history as an informal tabu list; oscillation and its resolution; structural barriers.
+- **Case study (§7)** — two runs, iteration by iteration: Bramble (a library assistant's system prompt, five testers, four iterations) and SemVer (a regex with its description, four testers, three iterations), with every candidate, attack, verdict and fix.
+- **Instantiation (§8)** — the three parameters that change between uses (output space, testers with their projections, halt predicate) and design guidelines; related work from CEGIS and CDCL to GANs, RLHF and automatic prompt optimisation.
+
+<p align="center">
+  <a href="https://samuele95.github.io/alchemist/paper.html"><img src="docs/readme/paper-runs-explorer.jpg" alt="The runs explorer in the paper" width="82%"></a><br>
+  <sub>The runs explorer: step through either run iteration by iteration — the candidate, every tester's attacks and reason, the judge's diagnosis and the fix it sent on.</sub>
+</p>
+
 ## Evidence
 
 Two runs are shown in the paper, selected by the author as illustrations rather than an evaluation (n = 2, no baseline).
