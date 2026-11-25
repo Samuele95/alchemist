@@ -23,7 +23,7 @@ export function mountToy(canvas, statusEl) {
     for (let it = 1; it <= N; it++) {
       const fails = bands.filter((b) => !pass(p, b));
       log.push(fails.map((b) => b.name).join(''));
-      if (!fails.length) return { path, log, result: `halted at iteration ${it}: both requirements pass` };
+      if (!fails.length) return { path, log, result: `the toy halted at iteration ${it}: both requirements pass` };
       // has the history alternated? (A, then B, then A …)
       const alt = log.length >= 2 && log[log.length - 1] !== log[log.length - 2] && log[log.length - 1].length === 1 && log[log.length - 2].length === 1;
       if (alt) {

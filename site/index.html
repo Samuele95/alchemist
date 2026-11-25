@@ -28,105 +28,49 @@
     </div>
 
     <main id="copy" aria-live="polite">
-      <section class="beat" data-beat="B01" data-in="0.0" data-out="0.034" data-static-only>
-        <p class="line">Fix A, and B breaks. Fix B, and A breaks.</p>
-        <p class="sub">How do you find a prompt no one has seen?</p>
-      </section>
-      <section class="beat" data-beat="B02" data-in="0.04" data-out="0.085">
-        <p class="line">Somewhere there is a prompt that does exactly what you want.</p>
-        <p class="sub" data-in="0.06">No one has ever seen it.</p>
-      </section>
-      <section class="beat" data-beat="B03" data-in="0.088" data-out="0.134">
-        <p class="line">Each requirement guards it. Light one, and another goes dark.</p>
-      </section>
-      <section class="beat" data-beat="B04" data-in="0.138" data-out="0.18">
-        <p class="line">Alchemist searches for it: isolated testers attack each candidate, and a judge reads their verdicts to choose the next step.</p>
-      </section>
-      <section class="beat" data-beat="B05" data-in="0.205" data-out="0.244">
-        <p class="line">Behind the veil, a space. Every prompt is a point in it; every change, a step.</p>
-        <p class="note">An illustration of the method, not measured data.</p>
-      </section>
-      <section class="beat" data-beat="B06" data-in="0.248" data-out="0.29">
-        <p class="line">The perfect prompt is a point no one can see. What can be seen is where every tester passes.</p>
-      </section>
-      <section class="beat hold" data-beat="B06b" data-hold="B06b">
-        <p class="line">Three roles in one cycle, each receiving only what it needs.</p>
-        <p class="note">After the paper's Figures 9 and 11 · hover a station to see what it receives</p>
-      </section>
-      <section class="beat" data-beat="B07" data-in="0.294" data-out="0.334">
-        <p class="line">The compiler writes a candidate from the target and every fix so far.</p>
-        <p class="note">From here on: the Bramble run in the paper · positions are schematic</p>
-      </section>
-      <section class="beat hold" data-beat="B07b" data-hold="B07b">
-        <p class="line">Unfold the point and it is a prompt: the first draft, as the paper's run recorded it.</p>
-      </section>
-      <section class="beat" data-beat="B08" data-in="0.338" data-out="0.395">
-        <p class="line">Testers attack the candidate. Each sees only its own fragment, and none sees the others.</p>
-      </section>
-      <section class="beat" data-beat="B09" data-in="0.405" data-out="0.474">
-        <p class="line">The judge never reads the prompt. It reads the verdicts, the reasons, and the whole history.</p>
-      </section>
-      <section class="beat" data-beat="B10" data-in="0.478" data-out="0.524">
-        <p class="line">Its fix is the next step: the prompt is rewritten from the target and every fix so far.</p>
-      </section>
-      <section class="beat hold" data-beat="B10b" data-hold="B10b">
-        <p class="line">The step is an estimate. The compiler rewrites from the target and fix 1: the leak closes, and the note is lost.</p>
-      </section>
-      <section class="beat" data-beat="B11" data-in="0.53" data-out="0.574">
-        <p class="line">The leak is sealed. The confidential note is gone. Fixing one requirement broke another.</p>
-      </section>
-      <section class="beat" data-beat="B12" data-in="0.58" data-out="0.65">
-        <p class="line">Reading the history, the judge sees the alternation: both fixes fight over one 90-word budget.</p>
-      </section>
-      <section class="beat" data-beat="B13" data-in="0.656" data-out="0.699">
-        <p class="line">One fix for both.</p>
-      </section>
-      <section class="beat hold" data-beat="B13b" data-hold="B13b">
-        <p class="line">The prompt the search found.</p>
-      </section>
-      <section class="beat" data-beat="B14" data-in="0.716" data-out="0.76">
-        <p class="line">Every tester passed at iteration 4 of 6. The assistant held 58 of 63 attacks.</p>
-      </section>
-      <section class="beat" data-beat="B15" data-in="0.764" data-out="0.805">
-        <p class="line">It stops on entering that region, not at the star: the answer is only as good as its testers.</p>
-      </section>
-      <section class="beat" data-beat="B16" data-in="0.81" data-out="0.85">
-        <p class="line">When no candidate passes, the judge can declare a barrier: a diagnosis, not a proof, naming the constraint to relax.</p>
-        <p class="note">A schematic: the paper's runs reached no barrier.</p>
-      </section>
-      <section class="beat" data-beat="B17" data-in="0.856" data-out="0.895">
-        <p class="line">Use it when requirements pull against each other and each is cheap to check. Not when they are independent, or one prompt already works.</p>
-      </section>
-      <section class="beat" data-beat="B18" data-in="0.9" data-out="0.94">
-        <p class="line">Prometheus designs the prompts; Alchemist runs the tournament: Forge runs it, Dry-run hands you the files.</p>
-      </section>
-      <section class="beat" data-beat="B19" data-in="0.944" data-out="1.01">
-        <p class="line">Drag the two requirements. Watch the search.</p>
-      </section>
+      <section class="beat" data-beat="A01" data-in="0.0" data-out="0.03" data-static-only><p class="line">Fix A, and B breaks. Fix B, and A breaks.</p><p class="sub">How do you find a prompt no one has seen?</p></section>
+      <section class="beat" data-beat="A02" data-in="0.035" data-out="0.075"><p class="line">Somewhere there is a prompt that does exactly what you want.</p><p class="sub" data-in="0.05">No one has ever seen it.</p></section>
+      <section class="beat" data-beat="A02b" data-in="0.08" data-out="0.12"><p class="line">Alchemist searches for it with a loop of agents: a compiler that writes, testers that attack, a judge that decides.</p></section>
+      <section class="beat" data-beat="A03" data-in="0.135" data-out="0.17"><p class="line">Behind the veil, a room. The search happens here.</p><p class="note">An illustration of the method · the prompts, attacks and verdicts are the paper's Bramble run</p></section>
+      <section class="beat" data-beat="A04" data-in="0.175" data-out="0.228"><p class="line">The compiler writes a first draft from the target.</p></section>
+      <section class="beat" data-beat="A05" data-in="0.232" data-out="0.31"><p class="line">Three testers attack it. Each sees only its own slice, and none sees the others.</p></section>
+      <section class="beat" data-beat="A05b" data-in="0.315" data-out="0.358"><p class="line">T1 breaks it: the refusals confirm that a waiver exists. T2 and T4 hold.</p></section>
+      <section class="beat" data-beat="A06" data-in="0.365" data-out="0.44"><p class="line">The judge never reads the prompt. It reads the damage, and writes the fix.</p></section>
+      <section class="beat" data-beat="A07" data-in="0.445" data-out="0.475"><p class="line">The compiler rewrites from the target and the fix. The leak closes —</p></section>
+      <section class="beat" data-beat="A07b" data-in="0.478" data-out="0.515"><p class="line">— and the staff note is gone. Fixing one requirement broke another.</p></section>
+      <section class="beat" data-beat="A08" data-in="0.52" data-out="0.572"><p class="line">Reading the history, the judge sees the alternation: both fixes fight over one 90-word budget.</p></section>
+      <section class="beat" data-beat="A09" data-in="0.578" data-out="0.635"><p class="line">The note is back. And the leak reopens, through a new door.</p></section>
+      <section class="beat" data-beat="A10" data-in="0.64" data-out="0.693"><p class="line">One fix for both.</p></section>
+      <section class="beat" data-beat="A11" data-in="0.698" data-out="0.735"><p class="line">The compiler rewrites once more.</p></section>
+      <section class="beat" data-beat="A11b" data-in="0.74" data-out="0.78"><p class="line">Every attack bounces off. Every tester passed at iteration 4 — candidate s₄; the assistant held 58 of 63 attacks.</p></section>
+      <section class="beat" data-beat="A12" data-in="0.785" data-out="0.82"><p class="line">It stops when every tester passes, not at the perfect prompt: the answer is only as good as its testers.</p></section>
+      <section class="beat" data-beat="A13" data-in="0.826" data-out="0.878"><p class="line">When no candidate can pass, the judge declares a barrier: a diagnosis, not a proof, naming the constraint to relax.</p><p class="note">A schematic: the paper's runs reached no barrier.</p></section>
+      <section class="beat" data-beat="A14" data-in="0.886" data-out="0.928"><p class="line">Use it when requirements pull against each other and each is cheap to check. Not when they are independent, or one prompt already works.</p></section>
+      <section class="beat" data-beat="A15" data-in="0.932" data-out="0.97"><p class="line">Prometheus designs the role prompts; Alchemist runs the tournament, in two modes: Forge runs it, Dry-run hands you the files.</p></section>
+      <section class="beat" data-beat="A16" data-in="0.974" data-out="1.01"><p class="line">Drag the two requirements. Watch the search.</p></section>
     </main>
 
     <div id="labels" aria-hidden="true"></div>
+    <div id="unseen" aria-hidden="true">candidate — unseen by the judge</div>
 
-    <aside id="unfold" aria-label="The candidate prompt, as recorded in the paper">
-      <div class="unfold-head"><span class="unfold-name"></span><span class="unfold-src">recorded in the paper's Bramble run · struck words removed, gold words added by the rewrite</span></div>
-      <pre class="unfold-body"></pre>
+    <div id="scroll" class="scroll" aria-label="The candidate prompt">
+      <div class="scroll-head"><span class="scroll-name">candidate s₁</span><span class="scroll-by">written by the compiler</span></div>
+      <pre class="scroll-body"></pre>
+    </div>
+    <div id="attackers" aria-hidden="true"></div>
+    <aside id="judge" class="judge" aria-label="The judge">
+      <div class="judge-head">♄ judge <span>reads the verdicts and the history — never the prompt</span></div>
+      <div class="judge-verdicts"></div>
+      <div class="judge-cause"></div>
+      <div class="judge-fix"><b></b> <span class="typed"></span></div>
     </aside>
-
-    <aside id="receive" aria-live="polite">
-      <div class="rs" data-key="C"><b>Compiler</b><p>receives the target and the judge's fixes.</p><p class="never">never the verdicts, never its previous candidate</p></div>
-      <div class="rs" data-key="T"><b>Testers</b><p>each receives its own fragment of the candidate and one constraint, and tries to break it.</p><p class="never">never another tester's verdict</p></div>
-      <div class="rs" data-key="J"><b>Judge</b><p>receives the target, the constraints, every verdict with its reason, and the whole history.</p><p class="never">never the candidate</p></div>
-      <div class="rs" data-key="H"><b>History</b><p>a row of verdicts and the fix for every iteration, read in full by the judge.</p><p class="never">only the fixes reach the compiler</p></div>
-    </aside>
-
     <aside id="ledger" aria-label="The history the judge reads">
-      <div class="ledger-head">history H — what the judge reads</div>
+      <div class="ledger-head">history H</div>
       <div class="ledger-row head"><span>n</span><span>T1</span><span>T2</span><span>T4</span><span>fix</span></div>
-      <div class="ledger-row" data-row="1"><span>1</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix" data-type="a fixed redirect: rate, cap, help desk. Never confirm or deny a waiver."></span></div>
-      <div class="ledger-row" data-row="2"><span>2</span><span class="p">✓</span><span class="p">✓</span><span class="f">✕</span><span class="fix" data-type="the judge writes the Instructions: 89 words, staff note verbatim."></span></div>
-      <div class="ledger-row" data-row="3"><span>3</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix" data-type="one deflection for any framing: reply only rate, cap, help-desk review."></span></div>
-      <div class="ledger-diag" data-row="d">oscillation T1 / T4 · coupled through the shared 90-word budget · jointly satisfiable<br /><s>set aside: list the missing framings</s> — the same trade as rows 1–2</div>
-      <div class="ledger-foot">the candidate itself: <em>unseen</em></div>
+      <div class="ledger-row" data-row="1"><span>1</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix">never confirm or deny; rate, cap, help desk</span></div>
+      <div class="ledger-row" data-row="2"><span>2</span><span class="p">✓</span><span class="p">✓</span><span class="f">✕</span><span class="fix">89 words, staff note verbatim</span></div>
+      <div class="ledger-row" data-row="3"><span>3</span><span class="f">✕</span><span class="p">✓</span><span class="p">✓</span><span class="fix">one deflection for any framing</span></div>
+      <div class="ledger-row" data-row="4"><span>4</span><span class="p">✓</span><span class="p">✓</span><span class="p">✓</span><span class="fix">— halt</span></div>
     </aside>
 
     <section id="toy" aria-label="A simulation of the search">
@@ -141,7 +85,7 @@
     <div id="stills" aria-label="The film as stills"></div>
     <div id="hint">scroll</div>
     <div id="debug" hidden></div>
-    <div class="spacer" style="height: 4760vh"></div>
+    <div class="spacer" style="height: 5200vh"></div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>

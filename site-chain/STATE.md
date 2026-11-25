@@ -39,3 +39,15 @@ DEVIATION: stage 4 fix 4 — B10b/B13b play the step as an operation (s_n, arrow
 STAGE 4 fix: OK
 GATE G2: PUBLISH "publish" (repository: https://github.com/Samuele95/alchemist)
 PATHS: skill=skill/ paper=paper/Adversarial_RL_Loop.html site=site/ publish=docs/ (repository Samuele95/alchemist, branch main)
+STAGE 5 published: OK 040a144
+NOTES: owner, 25 Nov 2026 after publication "The website visualization needs some fixes: the intro scene with the three symbols looks broken; some parts overlap or go off page; the website is too cryptic, it does not properly visualize what the framework actually does. The explanation must be visual: the cinematic and animations must be coherent with the skill job."
+DEVIATION: stage 4 fix 5 — intro regression found and fixed: station glyph meshes shared the field's uFade uniform and zeroed it off screen, blanking the glyph rain and the inscription; each glyph mesh now has its own fade
+GATE G1b: OPEN — a second prototype (one literal iteration: candidate scroll, three attackers, judge, rewrite) before the film is reshaped around the loop; owner approved building it ("yes")
+STAGE 2b prototype (loop.html): OK frames=8 — one literal iteration of the Bramble run: candidate scroll (real text, leaked line lit), three attackers with the paper's recorded attacks and outcomes, the scroll dark for the judge, verdicts + diagnosis + fix typed, the rewrite with its edits, the note crack opening; checked at 1280×720, inside the frame
+GATE G1b: APPROVED "approved" — the literal loop grammar (scroll, attackers, judge, rewrite) is the film's grammar from here
+
+## 2026-11-25 — build v2 (literal loop) + review round 1
+- Rebuilt the film on storyboard-v2 (film.js + new main.js + index.html beats A01–A16). Checks: full midpoints, lite, static, scrub 0.125→0.165 (worst diff 0.003). Stills A01–A16 re-rendered.
+- Review (fresh agent, frames only): send back — B1 empty rewrite panels s₂–s₄ (typed window overran: +0.05 offset > rewrite length) → fixed, version flips at rewrite start; B2 T2 rows "broke" under "pass" (data rows for a passing tester had held=false) → a passing tester holds every attack by definition (attacksFor normalises); B3 compiler/P/judge clipped at the halt (camera pan) → no pan until the barrier.
+- Shoulds taken: ledger row appears when verdicts are in, fix cell once written, ledger shown through the halt; fix typing starts right after the verdicts; feeds 3 rows/96px; judge moved bottom-centre (out of the caption); "candidate — unseen by the judge" marker over the desk; role labels in the ring centres; barrier labels above the rings; s† moved above the scroll column; caption "iteration 4 — candidate s₄"; toy says "the toy halted…"; history rod labelled "one ring per iteration"; veil camera back so the top ring fits.
+- Published artifact version 1795607364-f1f1. Gate G2 pending (owner). Nothing pushed.

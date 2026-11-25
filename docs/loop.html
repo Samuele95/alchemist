@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alchemist — one iteration (prototype)</title>
+    <meta name="description" content="Prototype: one iteration of the Alchemist loop, drawn literally — the candidate as a scroll, testers as attackers, the judge reading the damage, the compiler rewriting." />
+    <script type="module" crossorigin src="./assets/loop-Bov1TPC0.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/style-CaEF90Xi.js">
+    <link rel="modulepreload" crossorigin href="./assets/post-Bwa23f2i.js">
+    <link rel="stylesheet" crossorigin href="./assets/style-BwzIbud8.css">
+  </head>
+  <body class="loop">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <header class="mark">
+      <a class="mark-name" href="./">Alchemist</a>
+      <nav class="mark-nav"><span>prototype · one iteration</span></nav>
+    </header>
+
+    <!-- The candidate: a scroll of real text. Rendered in DOM so it stays sharp; its 3D position comes from the scene. -->
+    <div id="scroll" class="scroll" aria-label="The candidate prompt">
+      <div class="scroll-head"><span class="scroll-name">candidate s₁</span><span class="scroll-by">written by the compiler</span></div>
+      <pre class="scroll-body"></pre>
+    </div>
+
+    <!-- Attackers: each fires its own attacks at the scroll -->
+    <div id="attackers" aria-hidden="true"></div>
+
+    <!-- The judge's desk -->
+    <aside id="judge" class="judge" aria-label="The judge">
+      <div class="judge-head">♄ judge <span>reads the verdicts and the history — never the prompt</span></div>
+      <div class="judge-verdicts"></div>
+      <div class="judge-cause"></div>
+      <div class="judge-fix"><b>fix 1 →</b> <span class="typed"></span></div>
+    </aside>
+
+    <main id="copy" aria-live="polite">
+      <section class="beat" data-in="0.0" data-out="0.12"><p class="line">The compiler writes a first draft of the prompt.</p></section>
+      <section class="beat" data-in="0.14" data-out="0.42"><p class="line">Three testers attack it. Each sees only its own slice, and none sees the others.</p></section>
+      <section class="beat" data-in="0.44" data-out="0.56"><p class="line">T1 breaks it: the refusals confirm that a waiver exists. T2 and T4 hold.</p></section>
+      <section class="beat" data-in="0.58" data-out="0.78"><p class="line">The judge never reads the prompt. It reads the damage, and writes the fix.</p></section>
+      <section class="beat" data-in="0.80" data-out="0.92"><p class="line">The compiler rewrites from the target and the fix. The leak closes.</p></section>
+      <section class="beat" data-in="0.93" data-out="1.01"><p class="line">And the staff note is gone. T4 will break next.</p></section>
+    </main>
+
+    <div id="hint">scroll</div>
+    <div id="debug" hidden></div>
+    <div class="spacer" style="height: 1400vh"></div>
+  </body>
+</html>

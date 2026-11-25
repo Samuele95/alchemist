@@ -425,7 +425,9 @@ export class Film {
     const spin = 1 + 3 * smooth(seg(t, ...T.spin));
     const bandK = lens ? 0 : easeInOut(seg(t, T.cut[0] + 0.006, T.cut[1])) * (1 - easeInOut(seg(t, T.uncut[0], T.uncut[1] - 0.004)));
     this.band.mat.uniforms.uCut.value = bandK;
-    this.band.mat.uniforms.uFade.value = c.uFade.value;
+    this.band.mat.uniforms.uFade.value = c.uFade.value * (1 - smooth(seg(t, T.uncut[0], T.uncut[1])));
+    this.field.mat.uniforms.uFade.value = c.uFade.value;
+    this.inscription.material.uniforms.uFade.value = c.uFade.value;
     this.rings.forEach((R, k) => {
       const rot = t * 2.4 * spin * (k % 2 ? -1 : 1) + idle * 0.05 + R.phase;
       const ringK = lens ? 0 : easeInOut(seg(t, T.cut[0], T.cut[1] - 0.012)) * (1 - easeInOut(seg(t, ...T.uncut)));

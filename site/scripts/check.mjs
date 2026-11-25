@@ -70,7 +70,7 @@ try {
   if (!scrub) {
     let prev = null;
     for (const t of ts) {
-      await page.goto(`${base}?check=1&t=${t}&tier=${tier}${args.bare ? '&bare=1' : ''}`);
+      await page.goto(`${base}${args.page || ''}?check=1&t=${t}&tier=${tier}${args.bare ? '&bare=1' : ''}${args.clean ? '&clean=1' : ''}`);
       await page.waitForFunction(() => window.__ready === true, null, { timeout: 120000 });
       await waitFrames(3);
       const buf = await page.screenshot();
@@ -85,7 +85,7 @@ try {
     }
     ok(`frames ${ts.length} saved to ${path.relative(repoRoot, out)}`);
   } else {
-    await page.goto(`${base}?check=1&tier=${tier}`);
+    await page.goto(`${base}${args.page || ''}?check=1&tier=${tier}`);
     await page.waitForFunction(() => window.__ready === true, null, { timeout: 120000 });
     const steps = 10, up = [], down = [];
     const at = (i) => scrub[0] + ((scrub[1] - scrub[0]) * i) / steps;

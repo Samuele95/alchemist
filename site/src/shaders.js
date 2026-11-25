@@ -109,6 +109,7 @@ export function makeGlyphMesh(n, atlas, common) {
       uSymbols: { value: SYMBOLS },
       uCut: { value: 0 },
       ...common,
+      uFade: { value: 1 }, // per-mesh; never the shared one, because one mesh must not blank the others
     },
     transparent: true,
     depthWrite: false,

@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: 'dist',
     assetsInlineLimit: 0,
     chunkSizeWarningLimit: 1500,
-    rollupOptions: { input: { main: resolve(import.meta.dirname, 'index.html'), skill: resolve(import.meta.dirname, 'skill.html') } },
+    rollupOptions: { input: { main: resolve(import.meta.dirname, 'index.html'), skill: resolve(import.meta.dirname, 'skill.html'), loop: resolve(import.meta.dirname, 'loop.html') } },
   },
 });
