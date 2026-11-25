@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://samuele95.github.io/alchemist/"><b>The film</b></a> &nbsp;·&nbsp;
+  <a href="https://samuele95.github.io/alchemist/"><b>The website</b></a> &nbsp;·&nbsp;
   <a href="https://samuele95.github.io/alchemist/skill.html"><b>The skill</b></a> &nbsp;·&nbsp;
   <a href="https://samuele95.github.io/alchemist/paper.html"><b>The paper</b></a>
 </p>
@@ -52,9 +52,9 @@ Who reads what is the whole design:
 
 Because the compiler rebuilds each candidate from the target and *every* fix so far, the step is only an estimate: the judge proposes `sₙ + fₙ`, and the compiler lands at `sₙ₊₁ = C(P, f₁…fₙ)`. Reading an alternation in the history — fix A breaks B, fix B breaks A — the judge can recognise a coupling and write one fix for both.
 
-## The film
+## The website
 
-The site is a single scroll-driven shot, in three.js. A veil of falling glyphs — three rings, each guarding one requirement — tears open into a room where the loop runs on the paper's own Bramble data: the compiler writes candidate s₁ from the target, three testers attack it one constraint each with their attacks and verdicts on screen, the judge's desk opens over a darkened prompt it never reads and types its diagnosis and fix, and the compiler rewrites — the diff typed live — until the fourth candidate holds every attack. Then the room the paper's runs never reached: the barrier.
+The website is a single scroll-driven shot, in three.js. A veil of falling glyphs — three rings, each guarding one requirement — tears open into a room where the loop runs on the paper's own Bramble data: the compiler writes candidate s₁ from the target, three testers attack it one constraint each with their attacks and verdicts on screen, the judge's desk opens over a darkened prompt it never reads and types its diagnosis and fix, and the compiler rewrites — the diff typed live — until the fourth candidate holds every attack. Then the room the paper's runs never reached: the barrier.
 
 <table>
   <tr>
@@ -104,22 +104,12 @@ The first step is always the same: describe the target, the constraints and how 
 ```
 skill/        the skill itself — SKILL.md, the role templates, the run config, the ledger, the theory
 docs/         the built site, served by GitHub Pages
-site/         its source — three.js, Vite, one film as a function of scroll
+site/         its source — three.js, Vite, one scene as a function of scroll
 site-chain/   how it was made: the brief, the claims table, the storyboard, the reviews, the ledger
 ```
 
 The site was built by a five-stage Prometheus chain: a brief distilled from the skill and the paper, a prototype approved by the owner, a storyboard, the build, and an independent review before publication. Every sentence on the site maps to a claim in `site-chain/out/claims.md` with its locator in the skill or the paper.
 
-To work on the site:
-
-```sh
-cd site
-npm install
-npm run dev          # the film at http://localhost:5173
-npm run build        # into site/dist
-npm run check -- --t=0.2,0.5,0.8 --out=site-chain/out/frames/adhoc   # headless frame check, paths relative to the repo root
-```
-
 ---
 
-<p align="center"><sub>Samuele Stronati · MIT</sub></p>
+<p align="center"><sub>Samuele95 · MIT</sub></p>
