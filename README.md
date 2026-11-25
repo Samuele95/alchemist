@@ -92,18 +92,17 @@ What is guaranteed is modest and stated plainly: cost is bounded by N(m + 2) rol
 
 ## Get it
 
-Alchemist is an MIT-licensed skill for Claude Code. Drop the skill folder into your skills directory and invoke it with `/alchemist`:
+Alchemist is an MIT-licensed skill for Claude Code. Download `alchemist-skill-<version>.zip` from the [latest release](https://github.com/Samuele95/alchemist/releases/latest) and unzip it into your skills directory (`~/.claude/skills/` for every project, or `.claude/skills/` inside one) — or copy this repository's `skill/` folder there as `alchemist/`. Then invoke it with `/alchemist`:
 
 - **Forge** runs the loop to convergence, each role as a fresh, isolated sub-agent, and returns the artifact with its history — or a barrier report naming the constraint to relax.
 - **Dry-run** writes the role prompts, the run config and the empty ledger as files, and runs nothing.
 
 The first step is always the same: describe the target, the constraints and how each can be checked, and confirm the three decisions — output space, testers with their projections, halt predicate — before any role is written.
 
-> The skill files are not in this repository yet; this repository holds the site. They will be added at `skill/`.
-
 ## This repository
 
 ```
+skill/        the skill itself — SKILL.md, the role templates, the run config, the ledger, the theory
 docs/         the built site, served by GitHub Pages
 site/         its source — three.js, Vite, one film as a function of scroll
 site-chain/   how it was made: the brief, the claims table, the storyboard, the reviews, the ledger

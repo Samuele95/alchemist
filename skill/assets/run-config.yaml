@@ -1,0 +1,56 @@
+# Alchemist run configuration — the loop's single source of truth.
+# Copy this file and fill it in Phase 1, BEFORE any role is written.
+# It is the (P, S, C, T, J, halt, N) tuple made concrete.
+
+target:
+  # P — what you are converging on, in one or two sentences.
+  description: >
+    <e.g. a (K, Q) semantic-cipher tuple that encrypts a SemVer-matching
+    regex so that K alone, Q alone, and (K,Q) together each satisfy their
+    constraint>
+  mode: forge          # forge = run the loop here | dry-run = emit the harness, do not execute
+
+output_space:
+  # S — the exact form the compiler must emit. The tighter, the faster.
+  form: >
+    <e.g. a YAML document with keys `key` (string) and `payload` (string)>
+  components:          # name the parts the projections will slice (x1..xk)
+    - <x1: e.g. key K>
+    - <x2: e.g. payload Q>
+
+testers:
+  # One entry per constraint. 2 minimum, ~5 maximum. Each has a projection
+  # and a crisp pass/fail criterion. Mark exactly one as the full-projection
+  # end-to-end tester where applicable.
+  - id: T1
+    constraint: <the single thing this tester checks>
+    projection: {x1}         # disjoint {xi} | full (whole candidate)
+    criterion: <crisp pass/fail condition — NOT a score>
+  - id: T2
+    constraint: <...>
+    projection: {x2}
+    criterion: <...>
+  - id: T3
+    constraint: <end-to-end correctness>
+    projection: full
+    criterion: <running x1 on x2 reproduces the original>
+
+halt:
+  predicate: all_pass        # convergence: every tester returns pass
+  relaxation:                # OPTIONAL — define now or never. Leave null if none.
+    enabled: false
+    rule: >
+      <e.g. T3 may return "functional" instead of "full"; accept as converged.
+      Only a design decision if written here, before the loop runs.>
+
+budget:
+  N: 4                       # 2-3 constraints -> ~4 | 4-6 interacting -> ~6
+  warm_start: >              # OPTIONAL — techniques carried from a related converged loop
+    <none | e.g. "indirect name derivation from the SemVer loop">
+
+roles:
+  # Filled in Phase 2 by Prometheus against assets/role-templates/.
+  # Paths to the generated role prompts once produced.
+  compiler: role-templates/compiler.md
+  testers:  role-templates/tester.md     # one instantiation per tester above
+  judge:    role-templates/judge.md
